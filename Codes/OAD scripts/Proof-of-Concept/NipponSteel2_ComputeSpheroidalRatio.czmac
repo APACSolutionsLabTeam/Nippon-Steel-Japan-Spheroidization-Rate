@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Script>
+  <Context>Zen26</Context>
+  <Version>1.0</Version>
+  <Language>Python</Language>
+  <Text>for out in Zen.Application.GetAllOutputParameters():
+   
+    if type(out.Value) is ZenTable:
+        print(out.Value.Name)
+        if out.Value.Name == "Particles":
+            table_particles = out.Value
+print(table_particles)
+if not table_particles.Columns.Contains("Spheroidal Ratio"):
+    table_particles.Columns.Add("Spheroidal Ratio")
+print(table_particles.ColumnCount)
+#print(table_particles.RowCount)
+count_0_5_to_2_boundary = 0
+excluded_boundary_count = 0
+for row in range(table_particles.RowCount):
+#for row in range(50):
+    bound_height = table_particles.GetValue(row, 11)
+    bound_width = table_particles.GetValue(row, 12)
+    table_particles.SetValue(row,13, float(bound_height/bound_width))
+    if(float(bound_height/bound_width)&gt;= 0.5 and float(bound_height/bound_width)&lt;=2):
+        count_0_5_to_2_boundary = count_0_5_to_2_boundary+1
+    else:
+        excluded_boundary_count = excluded_boundary_count + 1
+print(count_0_5_to_2_boundary)
+print(excluded_boundary_count)
+spheroidization_rate = float(float(count_0_5_to_2_boundary)/float(count_0_5_to_2_boundary + excluded_boundary_count))
+spheroidization_rate = spheroidization_rate*100
+print(spheroidization_rate)
+Zen.Application.Pause('The Spheroidization Rate is: ' + str(spheroidization_rate))
+
+Zen.Application.ActiveWorkbench.SetOutputValue(table_particles, "Particle Properties")
+Zen.Application.ActiveWorkbench.SetDefaultOutputValue(table_particles)
+
+
+
+
+
+</Text>
+  <Author></Author>
+  <Description></Description>
+  <Keywords></Keywords>
+  <Row>25</Row>
+  <Column>118</Column>
+</Script>

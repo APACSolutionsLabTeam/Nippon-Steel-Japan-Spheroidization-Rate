@@ -1,0 +1,1 @@
+The POC shows how to automatically compute spheroidal ratio and spheroidization rate from Bound Height and Bound Width
